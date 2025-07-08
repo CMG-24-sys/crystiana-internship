@@ -6,6 +6,8 @@ import LandingIntro from "../components/home/LandingIntro";
 import NewItems from "../components/home/NewItems";
 import TopSellers from "../components/home/TopSellers";
 import KeenSliderDemo from "../components/KeenSliderDemo";
+import "keen-slider/keen-slider.min.css";
+
 
 const Home = () => {
   useEffect(() => {
@@ -22,10 +24,10 @@ const Home = () => {
         <NewItems />
         <TopSellers />
         <BrowseByCategory />
+        <BrowseByCategory />
         <KeenSliderDemo />
       </div>
     </div>
   );
 };
-
 export default Home;
