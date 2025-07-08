@@ -5,6 +5,7 @@ import Landing from "../components/home/Landing";
 import LandingIntro from "../components/home/LandingIntro";
 import NewItems from "../components/home/NewItems";
 import TopSellers from "../components/home/TopSellers";
+import KeenSliderDemo from "../components/KeenSliderDemo";
 
 const Home = () => {
   useEffect(() => {
@@ -21,6 +22,7 @@ const Home = () => {
         <NewItems />
         <TopSellers />
         <BrowseByCategory />
+        <KeenSliderDemo />
       </div>
     </div>
   );
