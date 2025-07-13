@@ -5,12 +5,23 @@ import { Link } from "react-router-dom";
 
 const skeletonArray = [1, 2, 3, 4];
 
+// Helper to format time
+function formatTime(ms) {
+  if (ms <= 0) return "00h 00m 00s";
+  const totalSeconds = Math.floor(ms / 1000);
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+  const s = String(totalSeconds % 60).padStart(2, "0");
+  return `${h}h ${m}m ${s}s`;
+}
+
 const NewItems = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [now, setNow] = useState(Date.now());
   const [sliderRef] = useKeenSlider({
     loop: true,
-    slides: { perView: 4, spacing: 16 }, // Adjust perView as needed
+    slides: { perView: 4, spacing: 16 },
   });
 
   useEffect(() => {
@@ -21,6 +32,12 @@ const NewItems = () => {
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  }, []);
+
+  // Update the timer every second
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -57,6 +74,10 @@ const NewItems = () => {
                         <Link to="/item-details">
                           <img src={item.nftImage} className="lazy img-fluid" alt="" />
                         </Link>
+                        {/* Countdown Timer */}
+                        <div className="de_countdown">
+                          {formatTime(item.expiryDate - now)}
+                        </div>
                       </div>
                       <div className="nft_coll_pp">
                         <Link to="/author">
