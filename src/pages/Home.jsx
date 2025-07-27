@@ -24,7 +24,6 @@ const Home = () => {
         <NewItems />
         <TopSellers />
         <BrowseByCategory />
-        <BrowseByCategory />
         <KeenSliderDemo />
       </div>
     </div>

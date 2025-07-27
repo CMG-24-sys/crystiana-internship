@@ -19,14 +19,6 @@ const AuthorItems = () => {
       .catch(() => setLoading(false));
   }, []);
 
-  // Fetch featured item on mount
-  useEffect(() => {
-    fetch("https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=17914494")
-      .then((res) => res.json())
-      .then((data) => setFeaturedItem(data))
-      .catch(() => setFeaturedItem(null));
-  }, []);
-
   return (
     <>
       {/* Show featured item if loaded */}

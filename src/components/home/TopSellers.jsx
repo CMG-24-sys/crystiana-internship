@@ -51,7 +51,11 @@ const TopSellers = () => {
                     <div className="nft_coll">
                       <div className="nft_coll_pp">
                         <Link to={`/author/${seller.authorId}`}>
-                          <img className="lazy pp-coll" src={seller.authorImage} alt={seller.authorName} />
+                          <img className="lazy pp-coll" 
+                          src={seller.authorImage} 
+                          alt={seller.authorName} 
+                          style={{ height: "100px", width: "90px", borderRadius: "50%", paddingTop: "30px" }} // Adjusted size
+                          />
                         </Link>
                         <i className="fa fa-check"></i>
                       </div>
