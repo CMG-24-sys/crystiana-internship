@@ -3,8 +3,6 @@ import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { Link } from "react-router-dom";
 
-//Header
-
 const skeletonArray = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const TopSellers = () => {
