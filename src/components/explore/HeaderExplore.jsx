@@ -1,5 +1,7 @@
 import React from "react";
 
+//Header
+
 const HeaderExplore = () => {
   return (
     <div className="col-lg-12">
