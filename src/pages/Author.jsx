@@ -4,7 +4,13 @@ import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 
 
-
+const Author = () => {
+  const { authorId } = useParams();
+  const [author, setAuthor] = useState([]);
+  const [authorCollection, setAthorCollection] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [isFollowing, setIsFollowing] = useState(false);
  
   useEffect(() => {
     if (!authorId) return;
