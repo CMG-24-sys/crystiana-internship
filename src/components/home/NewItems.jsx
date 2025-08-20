@@ -15,6 +15,14 @@ function formatTime(ms) {
   return `${h}h ${m}m ${s}s`;
 }
 
+const NewItems = () => {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [now, setNow] = useState(Date.now());
+  const [sliderRef] = useKeenSlider({
+    loop: true,
+    slides: { perView: 4, spacing: 16 },
+  });
 
   useEffect(() => {
     fetch("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
