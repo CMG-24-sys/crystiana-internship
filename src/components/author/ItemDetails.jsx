@@ -6,6 +6,7 @@ const AuthorItems = () => {
   const [author, setAuthor] = useState(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [featuredItem, setFeaturedItem] = useState(null);
 
   useEffect(() => {
     fetch("https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=73855012")
@@ -18,8 +19,27 @@ const AuthorItems = () => {
       .catch(() => setLoading(false));
   }, []);
 
+  // Fetch featured item on mount
+  useEffect(() => {
+    fetch("https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=17914494")
+      .then((res) => res.json())
+      .then((data) => setFeaturedItem(data))
+      .catch(() => setFeaturedItem(null));
+  }, []);
+
   return (
     <>
+      {/* Show featured item if loaded */}
+      {featuredItem && (
+        <div className="featured-item" style={{ marginBottom: 32, padding: 16, border: "1px solid #eee", borderRadius: 8 }}>
+          <h3>Featured Item</h3>
+          <img src={featuredItem.nftImage} alt={featuredItem.title} style={{ width: 200, borderRadius: 8 }} />
+          <div><strong>{featuredItem.title}</strong></div>
+          <div>Price: {featuredItem.price} ETH</div>
+          <div>Likes: {featuredItem.likes}</div>
+        </div>
+      )}
+
       {/* Show author details */}
       {author && <AuthorDetails author={author} />}
       <div className="de_tab_content">
