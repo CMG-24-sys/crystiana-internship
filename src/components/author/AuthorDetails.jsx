@@ -4,7 +4,7 @@ const AuthorDetails = ({ author }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState(author.followers || 0);
 
-  const handleFollow = () => {
+ const handleFollow = () => {
     setIsFollowing(true);
     setFollowers((prev) => prev + 1);
   };
