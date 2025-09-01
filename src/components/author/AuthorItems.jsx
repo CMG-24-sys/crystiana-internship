@@ -60,7 +60,6 @@ const AuthorItems = ( {authorCollections , author}) => {
               </div>
             ))
           }
-          
         </div>
       </div>
     </div>
