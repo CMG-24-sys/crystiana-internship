@@ -1,9 +1,59 @@
+
 import React, { useEffect, useState } from "react";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { Link } from "react-router-dom";
 
 const skeletonArray = [1, 2, 3, 4];
+
+function ItemSlide({ item, now }) {
+  return (
+    <div className="keen-slider__slide">
+      <Link
+        to={`/item-details/${item.nftId}`}
+        state={{ itemData: item }}
+        style={{ textDecoration: 'none', color: 'inherit' }}
+      >
+        <div className="nft_coll" style={{ cursor: 'pointer' }}>
+          <div className="nft_wrap">
+            <img src={item.nftImage} className="lazy img-fluid" alt="" />
+            <div className="de_countdown">
+              {formatTime(item.expiryDate - now)}
+            </div>
+          </div>
+          <div className="nft_coll_pp">
+            <img className="lazy pp-coll" src={item.authorImage} alt="" />
+            <i className="fa fa-check"></i>
+          </div>
+          <div className="nft_coll_info">
+            <h4>{item.title}</h4>
+            <span>{item.price} ETH</span>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+function SkeletonSlide({ index }) {
+  return (
+    <div className="keen-slider__slide" key={index}>
+      <div className="nft_coll">
+        <div className="nft_wrap">
+          <div className="skeleton skeleton-img" style={{ width: "100%", height: "200px", borderRadius: "8px" }}></div>
+        </div>
+        <div className="nft_coll_pp">
+          <div className="skeleton skeleton-avatar" style={{ width: "50px", height: "50px", borderRadius: "50%" }}></div>
+          <i className="fa fa-check"></i>
+        </div>
+        <div className="nft_coll_info">
+          <div className="skeleton skeleton-title" style={{ width: "60%", height: "20px", marginBottom: "8px" }}></div>
+          <div className="skeleton skeleton-code" style={{ width: "40%", height: "16px" }}></div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // Helper to format time
 function formatTime(ms) {
@@ -139,48 +189,10 @@ const NewItems = () => {
             <div ref={sliderRef} className="keen-slider">
               {loading
                 ? skeletonArray.map((_, idx) => (
-                    <div className="keen-slider__slide" key={idx}>
-                      <div className="nft_coll">
-                        <div className="nft_wrap">
-                          <div className="skeleton skeleton-img" style={{ width: "100%", height: "200px", borderRadius: "8px" }}></div>
-                        </div>
-                        <div className="nft_coll_pp">
-                          <div className="skeleton skeleton-avatar" style={{ width: "50px", height: "50px", borderRadius: "50%" }}></div>
-                          <i className="fa fa-check"></i>
-                        </div>
-                        <div className="nft_coll_info">
-                          <div className="skeleton skeleton-title" style={{ width: "60%", height: "20px", marginBottom: "8px" }}></div>
-                          <div className="skeleton skeleton-code" style={{ width: "40%", height: "16px" }}></div>
-                        </div>
-                      </div>
-                    </div>
+                    <SkeletonSlide key={idx} index={idx} />
                   ))
                 : items.slice(0, 4).map((item, idx) => (
-                    <div className="keen-slider__slide" key={idx}>
-                      <Link
-                        to={`/item-details/${item.nftId || idx}`}
-                        state={{ itemData: item }}
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                      >
-                        <div className="nft_coll" style={{ cursor: 'pointer' }}>
-                          <div className="nft_wrap">
-                            <img src={item.nftImage} className="lazy img-fluid" alt="" />
-                            {/* Countdown Timer */}
-                            <div className="de_countdown">
-                              {formatTime(item.expiryDate - now)}
-                            </div>
-                          </div>
-                          <div className="nft_coll_pp">
-                            <img className="lazy pp-coll" src={item.authorImage} alt="" />
-                            <i className="fa fa-check"></i>
-                          </div>
-                          <div className="nft_coll_info">
-                            <h4>{item.title}</h4>
-                            <span>{item.price} ETH</span>
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
+                    <ItemSlide key={idx} item={item} now={now} />
                   ))}
             </div>
           </div>
