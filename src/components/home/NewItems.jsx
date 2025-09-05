@@ -198,7 +198,6 @@ const NewItems = () => {
           </div>
         </div>
       </div>
-  {/* ItemDetailsInline modal removed; navigation now handled by Link */}
     </section>
   );
 };
