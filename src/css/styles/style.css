@@ -1,3 +1,7 @@
+/* Increase padding-top for BrowseByCategory section */
+#section-category {
+  padding-top: 120px !important;
+}
 /* Keen Slider Arrow Custom Styles */
 .keen-arrow {
   border: 2px solid #b071e3;
