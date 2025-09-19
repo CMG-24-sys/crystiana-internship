@@ -13,6 +13,16 @@ const Home = () => {
 
   return (
     <div id="wrapper">
+      <div
+        data-aos="fade-up"
+        data-aos-offset="200"
+        data-aos-delay="50"
+        data-aos-duration="1000"
+        data-aos-easing="ease-out"
+        data-aos-mirror="true"
+        data-aos-once="false"
+        data-aos-anchor-placement="top-center"
+      ></div>
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
         <Landing />
