@@ -1,35 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EthImage from "../images/ethereum.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
 
 const ItemDetails = () => {
   const location = useLocation();
-  const collectionData = location.state?.collectionData;
-  const itemData = location.state?.itemData;
+  const params = useParams();
+  const [itemDetails, setItemDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Get nftId from route params or state
+  const nftId = location.state?.itemData?.nftId || location.state?.collectionData?.nftId || params.nftId;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    if (nftId) {
+      setLoading(true);
+      fetch(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`)
+        .then(res => res.json())
+        .then(data => {
+          setItemDetails(data);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }
+  }, [nftId]);
 
-  // Handle both collection data (from Hot Collections) and item data (from New Items)
+  if (loading) return <div>Loading...</div>;
+  if (!itemDetails) return <div>No item details found.</div>;
+
   const displayData = {
-    title: collectionData?.title || itemData?.title || "Rainbow Style #194",
-    nftImage: collectionData?.nftImage || itemData?.nftImage || nftImage,
-    authorImage: collectionData?.authorImage || itemData?.authorImage || AuthorImage,
-    authorId: collectionData?.authorId || itemData?.authorId || "default",
-    price: collectionData ? 
-      `${collectionData.code / 100}` : // Convert code to ETH price for collections
-      itemData ? 
-        `${itemData.price}` : // Use price directly for items
-        "1.85", // Default price
-    nftId: collectionData?.nftId || itemData?.nftId || "default",
-    likes: itemData?.likes || Math.floor(Math.random() * 100) + 25,
-    views: Math.floor(Math.random() * 200) + 50
+    title: itemDetails.title || "Rainbow Style #194",
+    nftImage: itemDetails.nftImage || nftImage,
+    price: itemDetails.price || "1.85",
+    nftId: itemDetails.nftId || "default",
+    likes: itemDetails.likes || Math.floor(Math.random() * 100) + 25,
+    views: itemDetails.views || Math.floor(Math.random() * 200) + 50,
+    ownerImage: itemDetails.ownerImage || AuthorImage,
+    ownerName: itemDetails.ownerName || "Owner",
+    ownerId: itemDetails.ownerId || "default",
+    creatorImage: itemDetails.creatorImage || AuthorImage,
+    creatorName: itemDetails.creatorName || "Creator",
+    creatorId: itemDetails.creatorId || "default",
   };
 
-  const hasData = collectionData || itemData;
+  const hasData = !!itemDetails;
 
   return (
     <div id="wrapper">
@@ -61,7 +77,7 @@ const ItemDetails = () => {
                   </div>
                   <p>
                     {hasData ? 
-                      `This unique NFT "${displayData.title}" is part of an exclusive ${itemData ? 'New Items' : 'Hot Collections'} collection featuring distinctive digital artwork. Each piece represents the creative vision and artistic excellence that defines this collection.` :
+                      `This unique NFT "${displayData.title}" is part of an exclusive collection featuring distinctive digital artwork. Each piece represents the creative vision and artistic excellence that defines this collection.` :
                       "doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
                     }
                   </p>
@@ -70,14 +86,14 @@ const ItemDetails = () => {
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${displayData.authorId}`}>
-                            <img className="lazy" src={displayData.authorImage} alt="" />
+                          <Link to={`/author/${displayData.ownerId}`}>
+                            <img className="lazy" src={displayData.ownerImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${displayData.authorId}`}>
-                            {hasData ? `Owner ${displayData.authorId.toString().slice(-4)}` : "Monica Lucas"}
+                          <Link to={`/author/${displayData.ownerId}`}>
+                            {displayData.ownerName}
                           </Link>
                         </div>
                       </div>
@@ -89,14 +105,14 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${displayData.authorId}`}>
-                            <img className="lazy" src={displayData.authorImage} alt="" />
+                          <Link to={`/author/${displayData.creatorId}`}>
+                            <img className="lazy" src={displayData.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${displayData.authorId}`}>
-                            {collectionData ? `Artist ${displayData.authorId.toString().slice(-4)}` : "Monica Lucas"}
+                          <Link to={`/author/${displayData.creatorId}`}>
+                            {displayData.creatorName}
                           </Link>
                         </div>
                       </div>
