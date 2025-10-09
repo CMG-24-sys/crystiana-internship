@@ -69,6 +69,13 @@ const HotCollections = () => {
       .catch(() => setLoading(false));
   }, []);
 
+  // Force slider update when collections load
+  useEffect(() => {
+    if (!loading && instanceRef.current) {
+      instanceRef.current.update();
+    }
+  }, [loading, collections]);
+
   return (
     <section id="section-collections" className="no-bottom">
       <div className="container">
