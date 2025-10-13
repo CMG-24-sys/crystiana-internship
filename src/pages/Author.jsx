@@ -39,7 +39,52 @@ const Author = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div id="wrapper">
+      <div className="no-bottom no-top" id="content">
+        <div id="top"></div>
+        <section
+          id="profile_banner"
+          aria-label="section"
+          className="text-light"
+          data-bgimage="url(images/author_banner.jpg) top"
+          style={{ background: `url(${AuthorBanner}) top` }}
+        ></section>
+        <section aria-label="section">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="d_profile de-flex">
+                  <div className="de-flex-col">
+                    <div className="profile_avatar">
+                      <div className="skeleton skeleton-avatar" style={{ width: "120px", height: "120px", borderRadius: "50%" }}></div>
+                      <div className="profile_name">
+                        <div className="skeleton skeleton-title" style={{ width: "120px", height: "28px", marginBottom: "8px" }}></div>
+                        <div className="skeleton skeleton-title" style={{ width: "80px", height: "20px", marginBottom: "8px" }}></div>
+                        <div className="skeleton skeleton-title" style={{ width: "100px", height: "20px" }}></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="profile_follow de-flex">
+                    <div className="de-flex-col">
+                      <div className="skeleton skeleton-title" style={{ width: "80px", height: "20px", marginBottom: "8px" }}></div>
+                      <div className="skeleton skeleton-title" style={{ width: "100px", height: "32px" }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="de_tab tab_simple">
+                  {/* Skeleton for AuthorItems */}
+                  <div className="skeleton skeleton-img" style={{ width: "100%", height: "200px", borderRadius: "16px" }}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
   if (!author) return <div>No author data found.</div>;
 
   return (

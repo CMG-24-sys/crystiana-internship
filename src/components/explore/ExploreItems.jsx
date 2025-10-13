@@ -142,7 +142,7 @@ const ExploreItems = ({ onItemClick }) => {
           <button
             id="loadmore"
             className="btn-main lead"
-            onClick={() => setVisibleCount((count) => count + 8)}
+            onClick={() => setVisibleCount((count) => count + 4)}
           >
             Load more
           </button>

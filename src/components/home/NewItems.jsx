@@ -6,29 +6,74 @@ import { useKeenSlider } from "keen-slider/react";
 const skeletonArray = [1, 2, 3, 4];
 
 function CollectionSlide({ item }) {
-	return (
-		<div className="keen-slider__slide">
-			<div className="nft_coll">
-				<div className="nft_wrap">
-					<Link to={`/item-details/${item.nftId}`} state={{ collectionData: item }}>
-						<img src={item.nftImage} className="lazy img-fluid" alt="" />
-					</Link>
-				</div>
-				<div className="nft_coll_pp">
-					<Link to={`/author/${item.authorId}`} state={{ authorData: { id: item.authorId, image: item.authorImage } }}>
-						<img className="lazy pp-coll" src={item.authorImage} alt="" />
-					</Link>
-					<i className="fa fa-check"></i>
-				</div>
-				<div className="nft_coll_info">
-					<Link to={`/item-details/${item.nftId}`} state={{ collectionData: item }}>
-						<h4>{item.title}</h4>
-					</Link>
-					<span>{item.code}</span>
+		// Countdown timer logic
+		const [timeLeft, setTimeLeft] = React.useState(0);
+
+		React.useEffect(() => {
+			if (!item.expiryDate) return;
+			const updateTimer = () => {
+				const now = new Date().getTime();
+				const end = new Date(item.expiryDate).getTime();
+				const diff = end - now;
+				setTimeLeft(diff > 0 ? diff : 0);
+			};
+			updateTimer();
+			const interval = setInterval(updateTimer, 1000);
+			return () => clearInterval(interval);
+		}, [item.expiryDate]);
+
+		// Format timeLeft as HH:MM:SS
+		const formatTime = (ms) => {
+			if (!ms || ms <= 0) return "00:00:00";
+			const totalSeconds = Math.floor(ms / 1000);
+			const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+			const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+			const seconds = String(totalSeconds % 60).padStart(2, '0');
+			return `${hours}:${minutes}:${seconds}`;
+		};
+
+		return (
+			<div className="keen-slider__slide">
+				<div className="nft_coll">
+					<div className="nft_wrap" style={{ position: 'relative' }}>
+						<Link to={`/item-details/${item.nftId}`} state={{ collectionData: item }}>
+							<img src={item.nftImage} className="lazy img-fluid" alt="" />
+							{/* Countdown timer overlay */}
+										{item.expiryDate && (
+											<div style={{
+												position: 'absolute',
+												top: 10,
+												right: 10,
+												background: '#fff',
+												color: '#8000ff',
+												padding: '4px 10px',
+												borderRadius: '40%',
+												fontSize: '14px',
+												zIndex: 2,
+												border: '2px solid #8000ff',
+												fontWeight: 'bold',
+												boxShadow: '0 2px 8px rgba(128,0,255,0.12)'
+											}}>
+												{formatTime(timeLeft)}
+											</div>
+										)}
+						</Link>
+					</div>
+					<div className="nft_coll_pp">
+						<Link to={`/author/${item.authorId}`} state={{ authorData: { id: item.authorId, image: item.authorImage } }}>
+							<img className="lazy pp-coll" src={item.authorImage} alt="" />
+						</Link>
+						<i className="fa fa-check"></i>
+					</div>
+					<div className="nft_coll_info">
+						<Link to={`/item-details/${item.nftId}`} state={{ collectionData: item }}>
+							<h4>{item.title}</h4>
+						</Link>
+						<span>{item.code}</span>
+					</div>
 				</div>
 			</div>
-		</div>
-	);
+		);
 }
 
 function SkeletonSlide({ index }) {
