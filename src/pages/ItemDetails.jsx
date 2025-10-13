@@ -27,7 +27,59 @@ const ItemDetails = () => {
     }
   }, [nftId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div id="wrapper">
+      <div className="no-bottom no-top" id="content">
+        <div id="top"></div>
+        <section aria-label="section" className="mt90 sm-mt-0">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6 text-center">
+                <div className="skeleton skeleton-img" style={{ width: "100%", height: "400px", borderRadius: "16px", marginBottom: "30px" }}></div>
+              </div>
+              <div className="col-md-6">
+                <div className="item_info">
+                  <div className="skeleton skeleton-title" style={{ width: "60%", height: "32px", marginBottom: "16px" }}></div>
+                  <div className="item_info_counts" style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+                    <div className="skeleton skeleton-title" style={{ width: "80px", height: "20px" }}></div>
+                    <div className="skeleton skeleton-title" style={{ width: "80px", height: "20px" }}></div>
+                  </div>
+                  <div className="skeleton skeleton-title" style={{ width: "100%", height: "20px", marginBottom: "16px" }}></div>
+                  <div className="d-flex flex-row">
+                    <div className="mr40">
+                      <h6>Owner</h6>
+                      <div className="item_author">
+                        <div className="author_list_pp">
+                          <div className="skeleton skeleton-avatar" style={{ width: "50px", height: "50px", borderRadius: "50%" }}></div>
+                        </div>
+                        <div className="skeleton skeleton-title" style={{ width: "80px", height: "20px" }}></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="de_tab tab_simple">
+                    <div className="de_tab_content">
+                      <h6>Creator</h6>
+                      <div className="item_author">
+                        <div className="author_list_pp">
+                          <div className="skeleton skeleton-avatar" style={{ width: "50px", height: "50px", borderRadius: "50%" }}></div>
+                        </div>
+                        <div className="skeleton skeleton-title" style={{ width: "80px", height: "20px" }}></div>
+                      </div>
+                    </div>
+                    <div className="spacer-40"></div>
+                    <h6>Price</h6>
+                    <div className="nft-item-price">
+                      <div className="skeleton skeleton-title" style={{ width: "60px", height: "20px" }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
   if (!itemDetails) return <div>No item details found.</div>;
 
   const displayData = {
